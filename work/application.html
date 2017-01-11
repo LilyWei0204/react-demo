@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../js/react.js"></script>
+    <script src="../js/react-dom.js"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+<script src="../node_modules/babel-standalone/babel.min.js"></script>
+
+</body>
+<script type="text/babel">
+    class Title extends React.Component{//名字
+        constructor(){
+            super();
+        }
+        render(){
+            return <h3>{this.props.title}</h3>
+        }
+    }
+    class List extends React.Component{//列表
+        constructor(){
+            super();
+        }
+        render(){
+            return (
+                    <ul>
+                        {
+                            this.props.listData.map((a,b)=>{
+                               return <li key={b}>{a.con}</li>
+                            })
+                        }
+                    </ul>
+            )
+        }
+    }
+    class ToDo extends React.Component{
+        constructor(){
+            super();
+            this.state={text:"",arr:[]}
+        }
+        change(e){//监测目标文件的值
+           var val=e.target.value;
+           this.state.text=val;//将值返回给state
+        }
+        click(){
+            var obj={
+                con:this.state.text//提交事件把state中的值放在了对象的属性中
+            }
+            this.setState(function(prev){//把对象值加在数组中，并返回
+                return  {
+                    arr:prev.arr.concat(obj)
+                }
+            })
+        }
+        render(){
+            return (
+                    <div>
+                        <Title title="待办事项"/>
+                        <List listData={this.state.arr}/>
+                        <input type="text" onChange={this.change.bind(this)}/>
+                        <input type="button" value="提交" onClick={this.click.bind(this)}/>
+                    </div>
+            )
+        }
+    }
+    ReactDOM.render(<ToDo/>,document.getElementById("root"));
+</script>
+</html>
