@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="js/react.js"></script>
+    <script src="js/react-dom.js"></script>
+    <script src="js/babel.min.js"></script>
+    <title>react练习2</title>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script type="text/babel">
+class TODO extends React.Component{
+    constructor(){
+        super();
+        this.state = {item:"",arr:[]};
+    }
+    change(e){
+        var value = e.target.value;
+        this.state.item = value;
+    }
+    send(){
+        var obj = {
+            con:this.state.item
+        };
+        this.setState(function (prev) {
+            return {
+                arr:prev.arr.concat(obj)
+            }
+        });
+    }
+    render(){
+        return (
+            <div>
+                <Title title="Todolist"/>
+                <List listData={this.state.arr}/>
+                <input type="text" onChange={this.change.bind(this)}/>
+                <input type="button" value="提交" onClick={this.send.bind(this)}/>
+            </div>
+        );
+    }
+}
+
+class Title extends React.Component{
+    render(){
+        return <h1>{this.props.title}</h1>;
+    }
+}
+
+class List extends React.Component{
+    constructor(){
+        super();
+    }
+    render(){
+        return (
+                <ul>
+                    {
+                        this.props.listData.map((a,b)=>{
+                            return <li key={b}>{a.con}</li>
+                        })
+                    }
+                </ul>
+        );
+    }
+}
+
+ReactDOM.render(<TODO/>,document.getElementById("root"));
+</script>
+</html>
